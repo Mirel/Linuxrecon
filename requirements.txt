@@ -1,0 +1,2 @@
+# LinuxRecon no requiere dependencias externas de Python.
+# Requisito: Python 3 y comandos estándar de Linux.

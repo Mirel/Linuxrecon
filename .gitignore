@@ -1,0 +1,29 @@
+# Informes generados
+report.txt
+reports/
+*.log
+
+# Datos sensibles o temporales
+*.bak
+*.tmp
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editores y sistema operativo
+.vscode/
+.idea/
+.DS_Store
+
+# LaTeX y documentación compilada
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.synctex.gz

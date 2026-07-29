@@ -1,0 +1,33 @@
+=================================================
+            LinuxRecon Security Report
+=================================================
+Fecha: 2026-07-13 22:06:05
+
+[INFORMACION DEL SISTEMA]
+Linux equipo-laboratorio 6.x.x-generic aarch64 GNU/Linux
+
+[USUARIO ACTUAL]
+usuario
+
+[ID DEL USUARIO]
+uid=1000(usuario) gid=1000(usuario) grupos=1000(usuario),27(sudo)
+
+[USUARIOS DEL SISTEMA]
+root
+daemon
+usuario
+
+[PUERTOS ABIERTOS]
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:Port
+tcp   LISTEN 0      4096   127.0.0.1:631     0.0.0.0:*
+
+[INFORMACION DE RED]
+Direcciones anonimizadas para evitar la publicación de información sensible.
+
+[ARCHIVOS CON PERMISOS SUID]
+/usr/bin/passwd
+/usr/bin/sudo
+
+=================================================
+Fin del reporte
+=================================================
