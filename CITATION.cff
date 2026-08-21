@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+title: "LinuxRecon"
+message: "Si utilizas LinuxRecon en un trabajo académico, cita este repositorio."
+type: software
+authors:
+  - family-names: "Silva"
+    given-names: "Mirelle Candida"
+version: 1.0.0
+date-released: 2026-08-21
+repository-code: "https://github.com/Mirel/Linuxrecon"
+keywords:
+  - cybersecurity
+  - linux
+  - information-gathering
+  - security-audit
+  - python

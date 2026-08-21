@@ -1,10 +1,10 @@
 =================================================
             LinuxRecon Security Report
 =================================================
-Fecha: 2026-07-13 22:06:05
+Fecha: YYYY-MM-DD HH:MM:SS
 
-[INFORMACION DEL SISTEMA]
-Linux equipo-laboratorio 6.x.x-generic aarch64 GNU/Linux
+[INFORMACIÓN DEL SISTEMA]
+Linux linux-host 6.x.x-generic ... aarch64 GNU/Linux
 
 [USUARIO ACTUAL]
 usuario
@@ -17,17 +17,28 @@ root
 daemon
 usuario
 
+[PROCESOS EN EJECUCIÓN]
+USER       PID %CPU %MEM ... COMMAND
+root         1  0.0  0.2 ... /sbin/init
+usuario   1000  0.0  0.1 ... ejemplo
+
 [PUERTOS ABIERTOS]
 Netid State  Recv-Q Send-Q Local Address:Port Peer Address:Port
-tcp   LISTEN 0      4096   127.0.0.1:631     0.0.0.0:*
+udp   UNCONN 0      0      127.0.0.1:53      0.0.0.0:*
 
-[INFORMACION DE RED]
-Direcciones anonimizadas para evitar la publicación de información sensible.
+[INFORMACIÓN DE RED]
+1: lo: <LOOPBACK,UP,LOWER_UP> ...
+    inet 127.0.0.1/8 scope host lo
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> ...
+    inet 192.0.2.10/24 ...
 
 [ARCHIVOS CON PERMISOS SUID]
 /usr/bin/passwd
+/usr/bin/su
 /usr/bin/sudo
 
 =================================================
 Fin del reporte
 =================================================
+
+NOTA: Ejemplo anonimizado. Los resultados reales dependen del sistema analizado.

@@ -1,36 +1,17 @@
-#!/usr/bin/env python3
-"""
-LinuxRecon
-Herramienta básica de recopilación automatizada de información
-para sistemas Linux.
-
-Proyecto desarrollado como Trabajo Fin de Máster en Ciberseguridad.
-"""
-
 import subprocess
 from datetime import datetime
-from pathlib import Path
 
-
-REPORT_FILE = Path("report.txt")
-
-
-def run_command(command: str) -> str:
-    """
-    Ejecuta un comando del sistema y devuelve su salida estándar.
-
-    Se utiliza subprocess.run para conservar los resultados incluso cuando
-    el comando termina con un código distinto de cero, como puede ocurrir
-    al buscar archivos SUID sin permisos de acceso a determinados directorios.
-    """
+# ==============================
+# Función para ejecutar comandos
+# ==============================
+def run_command(command):
     try:
         result = subprocess.run(
             command,
             shell=True,
             text=True,
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=False,
+            stderr=subprocess.PIPE
         )
 
         if result.stdout.strip():
@@ -41,44 +22,42 @@ def run_command(command: str) -> str:
 
         return "Sin resultados.\n"
 
-    except Exception as exc:
-        return f"Error ejecutando comando: {exc}\n"
+    except Exception as e:
+        return f"Error ejecutando comando: {e}\n"
 
+# ==============================
+# Módulos de recolección
+# ==============================
 
-def get_system_info() -> str:
+def get_system_info():
     return run_command("uname -a")
 
-
-def get_current_user() -> str:
+def get_current_user():
     return run_command("whoami")
 
-
-def get_user_id() -> str:
-    return run_command("id")
-
-
-def get_all_users() -> str:
+def get_all_users():
     return run_command("cut -d: -f1 /etc/passwd")
 
+def get_user_id():
+    return run_command("id")
 
-def get_processes() -> str:
+def get_processes():
     return run_command("ps aux")
 
-
-def get_open_ports() -> str:
+def get_open_ports():
     return run_command("ss -tuln")
 
-
-def get_network_info() -> str:
+def get_network_info():
     return run_command("ip a")
 
-
-def get_suid_files() -> str:
+def get_suid_files():
     return run_command("find / -perm -4000 2>/dev/null")
 
+# ==============================
+# Generación de reporte
+# ==============================
 
-def generate_report() -> None:
-    """Genera un informe de texto con la información recopilada."""
+def generate_report():
     print("[+] Generando reporte...")
 
     report = f"""
@@ -87,7 +66,7 @@ def generate_report() -> None:
 =================================================
 Fecha: {datetime.now()}
 
-[INFORMACION DEL SISTEMA]
+[INFORMACIÓN DEL SISTEMA]
 {get_system_info()}
 
 [USUARIO ACTUAL]
@@ -99,13 +78,13 @@ Fecha: {datetime.now()}
 [USUARIOS DEL SISTEMA]
 {get_all_users()}
 
-[PROCESOS EN EJECUCION]
+[PROCESOS EN EJECUCIÓN]
 {get_processes()}
 
 [PUERTOS ABIERTOS]
 {get_open_ports()}
 
-[INFORMACION DE RED]
+[INFORMACIÓN DE RED]
 {get_network_info()}
 
 [ARCHIVOS CON PERMISOS SUID]
@@ -116,27 +95,32 @@ Fin del reporte
 =================================================
 """
 
-    REPORT_FILE.write_text(report, encoding="utf-8")
-    print(f"[+] Reporte generado correctamente: {REPORT_FILE}")
+    with open("report.txt", "w") as f:
+        f.write(report)
 
+    print("[+] Reporte generado correctamente: report.txt")
 
-def main() -> None:
-    """Muestra el menú principal de la herramienta."""
+# ==============================
+# Menú principal
+# ==============================
+
+def main():
     print("===================================")
     print("      LinuxRecon - TFM Tool")
     print("===================================")
     print("1. Generar reporte completo")
     print("2. Salir")
 
-    option = input("Selecciona una opción: ").strip()
+    option = input("Selecciona una opción: ")
 
     if option == "1":
         generate_report()
-    elif option == "2":
-        print("Saliendo...")
     else:
-        print("Opción no válida.")
+        print("Saliendo...")
 
+# ==============================
+# Ejecución
+# ==============================
 
 if __name__ == "__main__":
     main()

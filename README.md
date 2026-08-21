@@ -1,82 +1,51 @@
 # LinuxRecon
 
-**LinuxRecon** es una herramienta básica de auditoría para sistemas Linux orientada a automatizar la fase inicial de *Information Gathering* dentro de una evaluación de seguridad.
+LinuxRecon es una herramienta ligera de **Information Gathering para sistemas Linux**, desarrollada como parte de un Trabajo Fin de Máster en Ciberseguridad.
 
-La aplicación recopila información relevante del sistema y la centraliza en un informe de texto para facilitar su revisión posterior.
+Su objetivo es automatizar la recopilación inicial de información del sistema y centralizar los resultados en un informe de texto, evitando ejecutar manualmente múltiples comandos durante una primera fase de reconocimiento local.
 
 ## Funcionalidades
 
-LinuxRecon obtiene:
+LinuxRecon recopila actualmente:
 
-- Información del sistema operativo y del kernel.
-- Usuario que ejecuta la herramienta.
-- UID, GID y grupos del usuario.
-- Usuarios registrados en el sistema.
-- Procesos en ejecución.
-- Puertos TCP y UDP en escucha.
-- Interfaces y configuración de red.
-- Archivos con el bit SUID activo.
+- Información general del sistema y arquitectura (`uname -a`).
+- Usuario actual (`whoami`).
+- UID, GID y grupos (`id`).
+- Usuarios registrados en `/etc/passwd`.
+- Procesos activos (`ps aux`).
+- Puertos y sockets en escucha (`ss -tuln`).
+- Interfaces y direcciones de red (`ip a`).
+- Archivos con permisos SUID (`find / -perm -4000`).
+- Generación automática de un informe `report.txt`.
 
 ## Requisitos
 
-- Sistema operativo Linux.
+- Linux.
 - Python 3.
-- Comandos estándar: `uname`, `whoami`, `id`, `cut`, `ps`, `ss`, `ip` y `find`.
+- Utilidades estándar empleadas por el script: `uname`, `whoami`, `id`, `cut`, `ps`, `ss`, `ip` y `find`.
 
-No requiere librerías externas de Python.
+No requiere paquetes Python externos.
 
 ## Instalación
 
-Clona el repositorio:
+Clona el repositorio y entra en el directorio:
 
 ```bash
-git clone https://github.com/TU-USUARIO/linuxrecon.git
-cd linuxrecon
+git clone https://github.com/Mirel/Linuxrecon.git
+cd Linuxrecon
 ```
 
-También puedes descargar el proyecto y acceder manualmente a la carpeta.
+No es necesario instalar dependencias adicionales de Python.
 
-## Ejecución
+## Uso
+
+Ejecuta:
 
 ```bash
 python3 my.py
 ```
 
-Selecciona la opción:
-
-```text
-1. Generar reporte completo
-```
-
-La herramienta creará el archivo:
-
-```text
-report.txt
-```
-
-Para revisar el informe:
-
-```bash
-less report.txt
-```
-
-## Estructura del proyecto
-
-```text
-linuxrecon/
-├── my.py
-├── README.md
-├── LICENSE
-├── requirements.txt
-├── .gitignore
-├── examples/
-│   └── report_example.txt
-└── docs/
-    └── screenshots/
-        └── README.md
-```
-
-## Ejemplo de uso
+La aplicación mostrará el menú:
 
 ```text
 ===================================
@@ -84,39 +53,78 @@ linuxrecon/
 ===================================
 1. Generar reporte completo
 2. Salir
-Selecciona una opción: 1
-[+] Generando reporte...
-[+] Reporte generado correctamente: report.txt
 ```
 
-## Consideraciones de seguridad
+Selecciona `1` para generar el informe. El resultado se guarda como:
 
-LinuxRecon está diseñada para utilizarse exclusivamente en sistemas propios o en entornos donde exista autorización expresa.
+```text
+report.txt
+```
 
-La aparición de un puerto abierto, un proceso o un archivo SUID no implica automáticamente la existencia de una vulnerabilidad. Los resultados requieren interpretación y análisis contextual por parte del profesional de seguridad.
+> `report.txt` puede contener nombres de usuario, procesos, interfaces, direcciones IP y otra información del equipo. Por este motivo está excluido del repositorio mediante `.gitignore`.
 
-Los informes generados pueden contener nombres de usuario, direcciones IP, interfaces de red y otros datos del sistema. No deben publicarse sin anonimizar previamente la información sensible.
+## Estructura del repositorio
 
-## Limitaciones
+```text
+LinuxRecon/
+├── my.py
+├── README.md
+├── .gitignore
+├── requirements.txt
+├── SECURITY.md
+├── CHANGELOG.md
+├── CITATION.cff
+├── docs/
+│   ├── ARCHITECTURE.md
+│   └── USAGE.md
+└── examples/
+    └── report_example.txt
+```
 
-- La herramienta realiza recopilación y no sustituye una auditoría profesional completa.
-- Algunos resultados dependen de los privilegios del usuario que ejecuta el programa.
-- Está orientada a distribuciones Linux con comandos compatibles.
-- No realiza explotación ni modificación del sistema.
+## Arquitectura
 
-## Trabajo futuro
+La versión actual mantiene una arquitectura funcional sencilla:
 
-- Exportación a JSON y HTML.
-- Clasificación automática de hallazgos.
-- Integración con Nmap o Lynis.
-- Generación de métricas y niveles de riesgo.
-- Integración con plataformas SIEM.
-- Interfaz gráfica o panel web.
+```text
+Usuario
+  ↓
+main()
+  ↓
+generate_report()
+  ↓
+Funciones de recopilación
+  ↓
+run_command()
+  ↓
+Sistema Linux
+  ↓
+report.txt
+```
 
-## Autoría
+Las funciones de recopilación están separadas lógicamente para facilitar el mantenimiento y una futura evolución hacia módulos o plugins.
 
-Proyecto desarrollado por **Mirelle Candida Silva** como Trabajo Fin de Máster en Ciberseguridad.
+Consulta [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) para más información.
+
+## Alcance
+
+LinuxRecon es una herramienta de recopilación de información. **No es un escáner de vulnerabilidades** y no pretende sustituir herramientas profesionales como Lynis, OpenVAS, Nessus o plataformas SIEM.
+
+La presencia de un puerto abierto, una cuenta o un archivo SUID no implica por sí misma una vulnerabilidad. Los resultados deben ser interpretados posteriormente por un analista.
+
+## Seguridad y uso responsable
+
+Utiliza LinuxRecon únicamente sobre sistemas propios o sobre aquellos para los que dispongas de autorización. La versión actual utiliza comandos predefinidos y está orientada principalmente a operaciones de consulta.
+
+Consulta [`SECURITY.md`](SECURITY.md) para conocer las consideraciones de seguridad y las mejoras previstas.
+
+## Evolución prevista
+
+Entre las posibles ampliaciones se encuentran módulos para SSH, firewall, SGID, tareas cron, servicios, paquetes, actualizaciones, Docker y logs, además de exportación JSON/HTML y una futura arquitectura de plugins.
+
+## Proyecto académico
+
+LinuxRecon ha sido desarrollado como prototipo académico dentro de un Trabajo Fin de Máster en Ciberseguridad. El repositorio contiene el código fuente necesario para reproducir la versión utilizada durante la validación del proyecto.
 
 ## Licencia
 
-Este proyecto se distribuye bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE).
+Este repositorio no incluye actualmente una licencia de software. Antes de reutilizar, modificar o redistribuir el código, consulta las condiciones establecidas por la autora del proyecto.

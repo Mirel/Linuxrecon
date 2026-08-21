@@ -1,2 +1,2 @@
-# LinuxRecon no requiere dependencias externas de Python.
-# Requisito: Python 3 y comandos estándar de Linux.
+# LinuxRecon no requiere dependencias Python externas.
+# Requiere Python 3 y utilidades estándar de Linux utilizadas por my.py.

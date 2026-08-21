@@ -1,29 +1,25 @@
-# Informes generados
+# Informes reales generados por LinuxRecon
 report.txt
-reports/
-*.log
-
-# Datos sensibles o temporales
-*.bak
-*.tmp
-.env
+report_*.txt
 
 # Python
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
 .venv/
 venv/
+env/
 
-# Editores y sistema operativo
+# Editors / IDE
 .vscode/
 .idea/
+*.swp
+
+# macOS
 .DS_Store
 
-# LaTeX y documentación compilada
-*.aux
-*.bbl
-*.blg
+# Temporary files
 *.log
-*.out
-*.toc
-*.synctex.gz
+*.tmp
+*~
