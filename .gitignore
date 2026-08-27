@@ -1,25 +1,7 @@
-# Informes reales generados por LinuxRecon
-report.txt
-report_*.txt
-
-# Python
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
+.DS_Store
+report.txt
+*.log
 .venv/
 venv/
-env/
-
-# Editors / IDE
-.vscode/
-.idea/
-*.swp
-
-# macOS
-.DS_Store
-
-# Temporary files
-*.log
-*.tmp
-*~
